@@ -1,5 +1,8 @@
-import 'package:favorite_places_app/models/favoritePlace.dart';
+import 'dart:io';
+
+import 'package:favorite_places_app/models/favorite_place.dart';
 import 'package:favorite_places_app/providers/favorite_places_provider.dart';
+import 'package:favorite_places_app/widgets/image_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,16 +15,21 @@ class AddNewPlaceScreen extends ConsumerStatefulWidget {
 
 class _AddnewpalaceState extends ConsumerState<AddNewPlaceScreen> {
   final _titleController = TextEditingController();
+  File? _image;
 
   void _saveItem() {
     final enteredText = _titleController.text;
-    if (enteredText.isEmpty) {
+    if (enteredText.isEmpty || _image == null) {
       return;
     }
-    ref
-        .read(FavoritePlaceProvider.notifier)
-        .addPlace(FavoritePlace(title: _titleController.text));
+    ref.read(favoritePlaceProvider.notifier).addPlace(
+          FavoritePlace(title: _titleController.text, image: _image!),
+        );
     Navigator.of(context).pop();
+  }
+
+  void _pickImage(File file) {
+    _image = file;
   }
 
   @override
@@ -38,7 +46,7 @@ class _AddnewpalaceState extends ConsumerState<AddNewPlaceScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Column(
             children: [
               TextField(
@@ -54,8 +62,14 @@ class _AddnewpalaceState extends ConsumerState<AddNewPlaceScreen> {
               const SizedBox(
                 height: 12,
               ),
+              ImageInput(
+                onPickImage: _pickImage,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: _saveItem,

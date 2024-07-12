@@ -1,7 +1,3 @@
-import 'package:favorite_places_app/models/favoritePlace.dart';
+import 'package:favorite_places_app/models/favorite_place.dart';
 
-final List<FavoritePlace> MockData = [
-  FavoritePlace(title: "İzmir"),
-  FavoritePlace(title: "Antalya"),
-  FavoritePlace(title: "Ankara")
-];
+final List<FavoritePlace> mockData = [];

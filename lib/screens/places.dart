@@ -1,6 +1,6 @@
-import 'package:favorite_places_app/models/favoritePlace.dart';
+import 'package:favorite_places_app/models/favorite_place.dart';
 import 'package:favorite_places_app/providers/favorite_places_provider.dart';
-import 'package:favorite_places_app/screens/addNewPalace.dart';
+import 'package:favorite_places_app/screens/add_new_palace.dart';
 import 'package:favorite_places_app/widgets/places_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +10,7 @@ class PlacesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final favoritePlaces = ref.watch(FavoritePlaceProvider);
+    final favoritePlaces = ref.watch(favoritePlaceProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -26,7 +26,10 @@ class PlacesScreen extends ConsumerWidget {
               icon: const Icon(Icons.add)),
         ],
       ),
-      body: PlacesList(favoritePlaces: favoritePlaces),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: PlacesList(favoritePlaces: favoritePlaces),
+      ),
     );
   }
 }

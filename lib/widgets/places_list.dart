@@ -1,4 +1,5 @@
-import 'package:favorite_places_app/models/favoritePlace.dart';
+import 'package:favorite_places_app/models/favorite_place.dart';
+import 'package:favorite_places_app/screens/place_detail.dart';
 import 'package:flutter/material.dart';
 
 class PlacesList extends StatelessWidget {
@@ -18,13 +19,29 @@ class PlacesList extends StatelessWidget {
     } else {
       return ListView.builder(
         itemCount: favoritePlaces.length,
-        itemBuilder: (ctx, index) => ListTile(
-          title: Text(
-            favoritePlaces[index].title,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(color: Theme.of(context).colorScheme.onSurface),
+        itemBuilder: (ctx, index) => Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: ListTile(
+            leading: CircleAvatar(
+              radius: 25,
+              backgroundImage: FileImage(favoritePlaces[index].image),
+            ),
+            title: Text(
+              favoritePlaces[index].title,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(color: Theme.of(context).colorScheme.onSurface),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => PlaceDetail(
+                    place: favoritePlaces[index],
+                  ),
+                ),
+              )
+            },
           ),
         ),
       );

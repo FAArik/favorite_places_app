@@ -1,4 +1,4 @@
-import 'package:favorite_places_app/models/favoritePlace.dart';
+import 'package:favorite_places_app/models/favorite_place.dart';
 import 'package:flutter/material.dart';
 
 class PalaceListItem extends StatelessWidget {
