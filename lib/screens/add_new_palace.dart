@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:favorite_places_app/models/favorite_place.dart';
 import 'package:favorite_places_app/providers/favorite_places_provider.dart';
 import 'package:favorite_places_app/widgets/image_input.dart';
+import 'package:favorite_places_app/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location/location.dart';
 
 class AddNewPlaceScreen extends ConsumerStatefulWidget {
   const AddNewPlaceScreen({super.key});
@@ -16,6 +18,7 @@ class AddNewPlaceScreen extends ConsumerStatefulWidget {
 class _AddnewpalaceState extends ConsumerState<AddNewPlaceScreen> {
   final _titleController = TextEditingController();
   File? _image;
+  PlaceLocation? _locationData;
 
   void _saveItem() {
     final enteredText = _titleController.text;
@@ -23,13 +26,23 @@ class _AddnewpalaceState extends ConsumerState<AddNewPlaceScreen> {
       return;
     }
     ref.read(favoritePlaceProvider.notifier).addPlace(
-          FavoritePlace(title: _titleController.text, image: _image!),
+          FavoritePlace(
+              title: _titleController.text,
+              image: _image!,
+              location: _locationData!),
         );
     Navigator.of(context).pop();
   }
 
   void _pickImage(File file) {
     _image = file;
+  }
+
+  void _pickLocation(LocationData location) {
+    _locationData = PlaceLocation(
+        longitude: location.longitude!,
+        latidude: location.latitude!,
+        address: "lat :${location.latitude}, lng :${location.longitude}");
   }
 
   @override
@@ -67,6 +80,12 @@ class _AddnewpalaceState extends ConsumerState<AddNewPlaceScreen> {
               ),
               const SizedBox(
                 height: 12,
+              ),
+              LocationInput(
+                onPickLocation: _pickLocation,
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
